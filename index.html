@@ -15,6 +15,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            padding-bottom: 80px; /* Space for bottom nav */
         }
         .header {
             text-align: center;
@@ -37,6 +38,12 @@
             max-width: 600px;
             padding: 15px;
             box-sizing: border-box;
+        }
+        .app-page {
+            display: none;
+        }
+        .app-page.active {
+            display: block;
         }
         .vs-card {
             background: #0a0a0a;
@@ -107,6 +114,75 @@
             font-size: 0.85rem;
             line-height: 1.4;
         }
+        
+        /* About Us Content Styles */
+        .content-card {
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 20px;
+            padding: 25px;
+            line-height: 1.6;
+        }
+        .content-card h2 {
+            color: #39FF14;
+            font-size: 1.4rem;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #111;
+            padding-bottom: 5px;
+        }
+        .content-card h2:first-of-type {
+            margin-top: 0;
+        }
+        .content-card p {
+            color: #bbb;
+            font-size: 0.95rem;
+            margin: 0 0 15px 0;
+        }
+        .content-card ul {
+            padding-left: 20px;
+            margin: 0 0 20px 0;
+        }
+        .content-card li {
+            color: #ccc;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* Bottom Navbar Styles */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #050505;
+            border-top: 1px solid #111;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+        .nav-item {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .nav-item.active {
+            color: #39FF14;
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+        }
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
     </style>
 </head>
 <body>
@@ -117,43 +193,75 @@
     </div>
 
     <div class="main-container">
-        <div class="vs-card">
-            <div class="selector-grid">
-                <select id="colA" onchange="runCompare()">
-                    <option value="">Select College A...</option>
-                </select>
-                <div class="vs-divider">VS</div>
-                <select id="colB" onchange="runCompare()">
-                    <option value="">Select College B...</option>
-                </select>
-            </div>
+        
+        <div id="page-vs" class="app-page active">
+            <div class="vs-card">
+                <div class="selector-grid">
+                    <select id="colA" onchange="runCompare()">
+                        <option value="">Select College A...</option>
+                    </select>
+                    <div class="vs-divider">VS</div>
+                    <select id="colB" onchange="runCompare()">
+                        <option value="">Select College B...</option>
+                    </select>
+                </div>
 
-            <div id="display-area" style="display:none;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th id="lblA"></th>
-                            <th class="metric-label"></th>
-                            <th id="lblB"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="vs-rows">
-                        </tbody>
-                </table>
-                <div id="verdict-box" class="verdict-box"></div>
+                <div id="display-area" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th id="lblA"></th>
+                                <th class="metric-label"></th>
+                                <th id="lblB"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="vs-rows"></tbody>
+                    </table>
+                    <div id="verdict-box" class="verdict-box"></div>
+                </div>
             </div>
         </div>
+
+        <div id="page-about" class="app-page">
+            <div class="content-card">
+                <h2>About Us</h2>
+                <p>Welcome to <b>Study Hub by Prakhar</b>! We are dedicated to providing high-quality study notes and educational content to help students excel in their exams. Our goal is to make learning simpler, faster, and more effective for everyone.</p>
+                
+                <h2>Our Mission</h2>
+                <p>At <b>Study Hub by Prakhar</b>, we believe that knowledge should be accessible to all. Our mission is to create well-structured study materials that make complex topics easy to understand. Whether you are preparing for school exams, competitive tests, or just expanding your knowledge, we are here to help.</p>
+                
+                <h2>Why Choose Us?</h2>
+                <ul>
+                    <li>✓ Well-organized and easy-to-understand notes</li>
+                    <li>✓ Free study resources for various subjects</li>
+                    <li>✓ Regular updates with the latest educational content</li>
+                    <li>✓ Simple explanations for complex topics</li>
+                </ul>
+                
+                <h2>Join Us on This Journey</h2>
+                <p>Education is the key to success, and we are here to support you every step of the way. Explore our study notes, learn at your own pace, and achieve your academic goals with confidence.</p>
+                <p>Thank you for visiting <b>Study Hub by Prakhar</b> – let's learn and grow together!</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="switchPage('vs')">
+            <span class="nav-icon">📊</span>
+            <span>VS Engine</span>
+        </button>
+        <button class="nav-item" onclick="switchPage('about')">
+            <span class="nav-icon">ℹ️</span>
+            <span>About Us</span>
+        </button>
     </div>
 
 <script>
 const db = {
-    // IITs
     "IIT Bombay": [230000, 26.5, 3, "Maharashtra"], "IIT Delhi": [225000, 25.2, 2, "Delhi"], "IIT Madras": [215000, 21.8, 1, "Tamil Nadu"], "IIT Kanpur": [210000, 20.0, 4, "UP"], "IIT Kharagpur": [220000, 19.5, 6, "West Bengal"], "IIT Roorkee": [225000, 18.2, 5, "Uttarakhand"], "IIT Guwahati": [218000, 17.5, 7, "Assam"], "IIT Hyderabad": [235000, 20.5, 8, "Telangana"], "IIT Indore": [240000, 16.8, 14, "MP"], "IIT BHU": [210000, 18.1, 15, "UP"], "IIT Ropar": [220000, 14.5, 22, "Punjab"], "IIT Mandi": [215000, 13.8, 33, "HP"], "IIT Gandhinagar": [230000, 15.2, 18, "Gujarat"], "IIT Patna": [225000, 14.0, 41, "Bihar"], "IIT Bhubaneswar": [210000, 13.5, 47, "Odisha"], "IIT Tirupati": [215000, 12.0, 59, "Andhra"], "IIT Palakkad": [210000, 11.5, 68, "Kerala"], "IIT Dharwad": [220000, 10.8, 93, "Karnataka"], "IIT Jammu": [215000, 10.5, 100, "J&K"], "IIT Bhilai": [220000, 10.2, 101, "Chhattisgarh"], "IIT Goa": [230000, 11.0, 102, "Goa"],
-    // NITs
     "NIT Trichy": [165000, 16.5, 9, "Tamil Nadu"], "NIT Surathkal": [155000, 15.8, 12, "Karnataka"], "NIT Rourkela": [150000, 13.5, 16, "Odisha"], "NIT Warangal": [165000, 16.2, 21, "Telangana"], "NIT Calicut": [155000, 14.0, 23, "Kerala"], "MNNIT Allahabad": [145000, 14.5, 49, "UP"], "VNIT Nagpur": [155000, 11.5, 41, "Maharashtra"], "MNIT Jaipur": [150000, 12.8, 37, "Rajasthan"], "SVNIT Surat": [145000, 11.2, 65, "Gujarat"], "NIT Kurukshetra": [150000, 11.8, 58, "Haryana"], "NIT Silchar": [140000, 10.5, 40, "Assam"], "NIT Durgapur": [145000, 10.2, 43, "West Bengal"], "NIT Jalandhar": [140000, 9.8, 46, "Punjab"], "NIT Jamshedpur": [135000, 10.8, 101, "Jharkhand"], "NIT Hamirpur": [130000, 8.5, 128, "HP"], "NIT Raipur": [125000, 8.2, 70, "Chhattisgarh"], "NIT Goa": [145000, 9.5, 90, "Goa"], "NIT Agartala": [135000, 8.0, 91, "Tripura"], "NIT Patna": [140000, 9.0, 56, "Bihar"], "NIT Srinagar": [130000, 7.5, 82, "J&K"], "NIT Uttarakhand": [135000, 7.8, 150, "Uttarakhand"], "NIT Manipur": [130000, 7.0, 151, "Manipur"], "NIT Meghalaya": [140000, 8.2, 72, "Meghalaya"], "NIT Mizoram": [135000, 6.8, 190, "Mizoram"], "NIT Nagaland": [130000, 6.5, 191, "Nagaland"], "NIT Sikkim": [135000, 7.2, 192, "Sikkim"], "NIT Puducherry": [145000, 8.5, 136, "Puducherry"], "NIT Andhra": [140000, 8.0, 137, "Andhra"],
-    // IIITs & GFTIs
     "IIIT Hyderabad": [380000, 32.5, 55, "Telangana"], "IIIT Allahabad": [195000, 30.8, 89, "UP"], "IIIT Bangalore": [400000, 28.5, 74, "Karnataka"], "IIIT Lucknow": [240000, 26.0, 105, "UP"], "IIIT Gwalior": [165000, 22.0, 88, "MP"], "IIIT Pune": [210000, 16.5, 106, "Maharashtra"], "IIIT Jabalpur": [155000, 14.5, 97, "MP"], "IIIT Kancheepuram": [160000, 12.0, 184, "Tamil Nadu"], "IIIT Vadodara": [200000, 13.5, 185, "Gujarat"], "IIIT Sri City": [215000, 12.8, 186, "Andhra"], "DTU Delhi": [219000, 17.2, 61, "Delhi"], "NSUT Delhi": [219000, 16.8, 60, "Delhi"], "PEC Chandigarh": [190000, 14.2, 87, "Chandigarh"], "BIT Mesra": [310000, 11.5, 53, "Jharkhand"], "JNU Delhi": [15000, 10.5, 1, "Delhi"],
-    // Private & State
     "BITS Pilani": [580000, 22.5, 25, "Rajasthan"], "BITS Goa": [580000, 19.5, 26, "Goa"], "BITS Hyderabad": [580000, 18.5, 27, "Telangana"], "VIT Vellore": [198000, 9.5, 11, "Tamil Nadu"], "COEP Pune": [135000, 11.2, 73, "Maharashtra"], "VJTI Mumbai": [95000, 12.5, 80, "Maharashtra"], "RVCE Bangalore": [250000, 11.0, 96, "Karnataka"], "Manipal (MIT)": [450000, 10.8, 75, "Karnataka"], "Thapar University": [410000, 10.5, 20, "Punjab"], "DAIICT": [210000, 16.2, 100, "Gujarat"], "LNMIIT Jaipur": [380000, 14.5, 101, "Rajasthan"], "SRM KTR": [260000, 8.5, 28, "Tamil Nadu"], "Amrita Vishwa": [300000, 8.2, 19, "Tamil Nadu"], "KIIT Bhubaneswar": [350000, 8.0, 39, "Odisha"], "SASTRA Tanjore": [170000, 7.8, 34, "Tamil Nadu"], "ICT Mumbai": [90000, 9.5, 24, "Maharashtra"]
 };
 
@@ -198,7 +306,22 @@ function runCompare() {
     
     document.getElementById('verdict-box').innerHTML = `💡 <b>P-Labs Verdict:</b> ${roiA > roiB ? vA : vB} currently shows a better Value-for-Money (ROI) ratio based on data trends. <b>${d1[1] > d2[1] ? vA : vB}</b> leads in sheer placement potential.`;
 }
+
+// Tab Switching System
+function switchPage(pageId) {
+    // Hide all pages
+    document.querySelectorAll('.app-page').forEach(page => {
+        page.classList.remove('active');
+    });
+    // Deactivate all nav buttons
+    document.querySelectorAll('.nav-item').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Activate target page and nav button
+    document.getElementById('page-' + pageId).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
 </script>
 </body>
-  </html>
-  
+</html>
