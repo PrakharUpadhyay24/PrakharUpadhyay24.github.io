@@ -15,7 +15,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding-bottom: 80px; /* Space for bottom nav */
+            padding-bottom: 80px;
         }
         .header {
             text-align: center;
@@ -38,12 +38,6 @@
             max-width: 600px;
             padding: 15px;
             box-sizing: border-box;
-        }
-        .app-page {
-            display: none;
-        }
-        .app-page.active {
-            display: block;
         }
         .vs-card {
             background: #0a0a0a;
@@ -114,40 +108,6 @@
             font-size: 0.85rem;
             line-height: 1.4;
         }
-        
-        /* About Us Content Styles */
-        .content-card {
-            background: #0a0a0a;
-            border: 1px solid #222;
-            border-radius: 20px;
-            padding: 25px;
-            line-height: 1.6;
-        }
-        .content-card h2 {
-            color: #39FF14;
-            font-size: 1.4rem;
-            margin-top: 25px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #111;
-            padding-bottom: 5px;
-        }
-        .content-card h2:first-of-type {
-            margin-top: 0;
-        }
-        .content-card p {
-            color: #bbb;
-            font-size: 0.95rem;
-            margin: 0 0 15px 0;
-        }
-        .content-card ul {
-            padding-left: 20px;
-            margin: 0 0 20px 0;
-        }
-        .content-card li {
-            color: #ccc;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
 
         /* Bottom Navbar Styles */
         .bottom-nav {
@@ -164,16 +124,14 @@
             z-index: 1000;
         }
         .nav-item {
-            background: none;
-            border: none;
             color: #666;
             font-size: 0.85rem;
             font-weight: bold;
-            cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: 0.2s;
+            text-decoration: none;
         }
         .nav-item.active {
             color: #39FF14;
@@ -193,68 +151,42 @@
     </div>
 
     <div class="main-container">
-        
-        <div id="page-vs" class="app-page active">
-            <div class="vs-card">
-                <div class="selector-grid">
-                    <select id="colA" onchange="runCompare()">
-                        <option value="">Select College A...</option>
-                    </select>
-                    <div class="vs-divider">VS</div>
-                    <select id="colB" onchange="runCompare()">
-                        <option value="">Select College B...</option>
-                    </select>
-                </div>
+        <div class="vs-card">
+            <div class="selector-grid">
+                <select id="colA" onchange="runCompare()">
+                    <option value="">Select College A...</option>
+                </select>
+                <div class="vs-divider">VS</div>
+                <select id="colB" onchange="runCompare()">
+                    <option value="">Select College B...</option>
+                </select>
+            </div>
 
-                <div id="display-area" style="display:none;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th id="lblA"></th>
-                                <th class="metric-label"></th>
-                                <th id="lblB"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="vs-rows"></tbody>
-                    </table>
-                    <div id="verdict-box" class="verdict-box"></div>
-                </div>
+            <div id="display-area" style="display:none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="lblA"></th>
+                            <th class="metric-label"></th>
+                            <th id="lblB"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="vs-rows"></tbody>
+                </table>
+                <div id="verdict-box" class="verdict-box"></div>
             </div>
         </div>
-
-        <div id="page-about" class="app-page">
-            <div class="content-card">
-                <h2>About Us</h2>
-                <p>Welcome to <b>Study Hub by Prakhar</b>! We are dedicated to providing high-quality study notes and educational content to help students excel in their exams. Our goal is to make learning simpler, faster, and more effective for everyone.</p>
-                
-                <h2>Our Mission</h2>
-                <p>At <b>Study Hub by Prakhar</b>, we believe that knowledge should be accessible to all. Our mission is to create well-structured study materials that make complex topics easy to understand. Whether you are preparing for school exams, competitive tests, or just expanding your knowledge, we are here to help.</p>
-                
-                <h2>Why Choose Us?</h2>
-                <ul>
-                    <li>✓ Well-organized and easy-to-understand notes</li>
-                    <li>✓ Free study resources for various subjects</li>
-                    <li>✓ Regular updates with the latest educational content</li>
-                    <li>✓ Simple explanations for complex topics</li>
-                </ul>
-                
-                <h2>Join Us on This Journey</h2>
-                <p>Education is the key to success, and we are here to support you every step of the way. Explore our study notes, learn at your own pace, and achieve your academic goals with confidence.</p>
-                <p>Thank you for visiting <b>Study Hub by Prakhar</b> – let's learn and grow together!</p>
-            </div>
-        </div>
-
     </div>
 
     <div class="bottom-nav">
-        <button class="nav-item active" onclick="switchPage('vs')">
+        <a href="index.html" class="nav-item active">
             <span class="nav-icon">📊</span>
             <span>VS Engine</span>
-        </button>
-        <button class="nav-item" onclick="switchPage('about')">
+        </a>
+        <a href="about.html" class="nav-item">
             <span class="nav-icon">ℹ️</span>
             <span>About Us</span>
-        </button>
+        </a>
     </div>
 
 <script>
@@ -305,22 +237,6 @@ function runCompare() {
     const roiB = d2[1] / (d2[0]/100000);
     
     document.getElementById('verdict-box').innerHTML = `💡 <b>P-Labs Verdict:</b> ${roiA > roiB ? vA : vB} currently shows a better Value-for-Money (ROI) ratio based on data trends. <b>${d1[1] > d2[1] ? vA : vB}</b> leads in sheer placement potential.`;
-}
-
-// Tab Switching System
-function switchPage(pageId) {
-    // Hide all pages
-    document.querySelectorAll('.app-page').forEach(page => {
-        page.classList.remove('active');
-    });
-    // Deactivate all nav buttons
-    document.querySelectorAll('.nav-item').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    // Activate target page and nav button
-    document.getElementById('page-' + pageId).classList.add('active');
-    event.currentTarget.classList.add('active');
 }
 </script>
 </body>
